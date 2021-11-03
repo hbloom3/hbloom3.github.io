@@ -39,9 +39,9 @@
 	
 	
 	var mymap = L.map('mapid').setView([40.819273, -96.702968], 16);
-	L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
-	maxZoom: 18,
-	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+	maxZoom: 16
 }).addTo(mymap);
 //(10) right above here, you see you're adding this tileset and setting the max zoom level of "mymap" 
 
