@@ -30,7 +30,7 @@ attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a hre
 			maxZoom: 20,
 			ext: 'png'
 			}).addTo(map);
-$.getJSON("https://https://github.com/hbloom3/hbloom3.Github.io/blob/lab09/2020cities.geojson")
+$.getJSON("https://https://github.com/hbloom3/hbloom3.Github.io/blob/lab09/cities2020.geojson")
             .done(function(data) {
                 var info = processData(data);
                 createPropSymbols(info.timestamps, data);
