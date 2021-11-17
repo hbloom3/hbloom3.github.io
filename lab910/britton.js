@@ -1,3 +1,4 @@
+var omahaJson = 
 {
 "type": "FeatureCollection",
 "name": "britton",
