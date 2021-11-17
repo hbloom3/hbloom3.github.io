@@ -1,4 +1,4 @@
-var omahaJson = 
+var omaJson = 
 {
 "type": "FeatureCollection",
 "name": "britton",
