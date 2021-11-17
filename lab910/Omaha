@@ -15,7 +15,7 @@
       <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
       <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" type="text/css">
       <script src="https://dsps.lib.uiowa.edu/placing/public/jqueryUiTouchPunch-0.2.2/jquery.ui.touch-punch.min.js"></script>
-      <script src="https://dsps.lib.uiowa.edu/placing/omadata.js"></script>
+      <script src="http://hbloom3.Github.io/lab910/britton.js"></script>
 
 	  <link rel="stylesheet" type="text/css" href="https://dsps.lib.uiowa.edu/placing/css/style.css">
 	  <link rel="stylesheet" type="text/css" href="https://dsps.lib.uiowa.edu/placing/css/navwrap.css">
@@ -33,7 +33,7 @@
                 });
 	 
       var map = L.map('map', {
-	  center: [41.259944, -95.937057],
+	  center: [41.401397, -92.354629],
 	  zoom: 15,
 	  layers: [basemap] 
 	  });
