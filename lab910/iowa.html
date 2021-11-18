@@ -121,17 +121,17 @@ var sliderControl = L.control.sliderControl({
         showResultFct: function(feature, container) {
           props = feature.properties;
           var name = L.DomUtil.create('b', null, container);
-          name.innerHTML = props.LNAME;
+          name.innerHTML = props.name;
           container.appendChild(L.DomUtil.create('br', null, container));
 
-          var cat = props.LNAME ? props.FNAME : props.OCCUPATION,
+          var cat = props.name ? props.FNAME : props.OCCUPATION,
               info = cat;
           container.appendChild(document.createTextNode(info));
         }
       };
       var searchControl = L.control.fuseSearch(searchOptions);
       map.addControl(searchControl);
-      searchControl.indexFeatures(omaJson, ['LNAME']);
+      searchControl.indexFeatures(omaJson, ['name']);
 
       displayFeatures(omaJson, searchLayer);
 
