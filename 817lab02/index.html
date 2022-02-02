@@ -1,4 +1,6 @@
 <script src="bus.js"></script>
+<script src="busstop.jpg"></script>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +43,7 @@
       //see how you can concatenate various attributes and text as needed, //including HTML markup, with single quotes. You pull out properties by //typing in prop and then putting the field in brackets.
       //you can do this because prop = feature.properties._____
 
-          var popup = '<h3>'+prop['Location']+'</h3>'+'<br>Cases Day 1: '+prop['1']+'<br>Cases Day 16: '+prop['bus'];
+          var popup = '<h3>'+prop['Location']+'</h3>'+'<br>City Bus Stop Day;
                   // add known info about event to the description
                 
        // you must create a layer property on each feature or else
@@ -53,7 +55,7 @@
 
 
 
-      var provinces = L.geoJson(provinces, {style:style}).addTo(map);
+      var bus = L.geoJson(bus, {style:style}).addTo(map);
 
       var minValue = 100;
       var minRadius = 5;
@@ -66,7 +68,7 @@
 
 
 
-      var covidData = new L.geoJson(covidData, {
+      var bus = new L.geoJson(bus, {
           onEachFeature : onEachFeature,
           pointToLayer: function(feature, ll){
               return L.circleMarker(ll, {
