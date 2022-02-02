@@ -1,4 +1,4 @@
-var bus
+var bus =
 {
 "type": "FeatureCollection",
 "name": "busstop",
