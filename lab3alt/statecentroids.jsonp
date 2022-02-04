@@ -1,4 +1,4 @@
-{onLoadData("
+onLoadData(
 {
 "type": "FeatureCollection",
 "name": "statecentroids",
@@ -787,4 +787,4 @@
 { "type": "Feature", "properties": { "OBJECTID": 781, "NAME": "Arizona", "DEM": 46, "REP": 46, "DIFF": 0, "start": 1578100000000.0, "end": 1581720000000.0, "EV_EV": 11 }, "geometry": { "type": "Point", "coordinates": [ -111.660881037565574, 34.28750069785854 ] } }
 ]
 }
-)}
+)
