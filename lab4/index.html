@@ -10,8 +10,7 @@
 
  <link
  rel="stylesheet"
- href="https://js.arcgis.com/4.14/esri/themes/light/main.css"
- />
+ href="https://js.arcgis.com/4.14/esri/themes/light/main.css"/>
  <script src="https://js.arcgis.com/4.14/"></script>
  <style>
        html,
@@ -32,20 +31,17 @@
       "esri/layers/GeoJSONLayer",
       "esri/views/MapView",
       "esri/layers/FeatureLayer",
-      "esri/widgets/Legend"
-    ], function(Map, TileLayer, GeoJSONLayer, MapView, Legend, FeatureLayer) {
+      "esri/widgets/Legend"],
+    function(Map, TileLayer, GeoJSONLayer, MapView, FeatureLayer, Legend) {
       var thebasemap = new TileLayer({
     url:"https://gisext.lincoln.ne.gov/arcgis/rest/services/GIS/LancoBasemap/MapServer/"
       });
-      var map = new Map({
-                layers: [thebasemap, geojsonLayer]
-              });
+      var FeatureLayer = new FeatureLayer({
+      url:"https://gisext.lincoln.ne.gov/arcgis/rest/services/Parks/Park_Boundaries/MapServer/"
+        });
+      const url = "https://opendata.arcgis.com/datasets/e311ff702f1b491997a770607633ab07_0.geojson";
 
-const url = "https://opendata.arcgis.com/datasets/5aa5f17d117f409d8608ec1bf6de06d6_0.geojson";
-const geojsonLayer = new GeoJSONLayer({
-url: url,
-copyright: “Heather Bloom”
-c        const renderer = {
+        const renderer = {
           type: "simple",
           field: "CNTASSDVAL",
 	legendOptions: {title: "Assessed values in Lincoln"},
@@ -76,32 +72,36 @@ c        const renderer = {
                      size: "26px",
 	       label: "high"
                 }
-                }
               ]
             }
           ]
         };
-var view = new MapView({
+        const geojsonLayer = new GeoJSONLayer({
+        url: url,
+        copyright: "Heather Bloom",
+               renderer: renderer
+             });
+             var map = new Map({
+                       layers: [thebasemap, geojsonLayer]
+                     });
+             var view = new MapView({
           container: "viewDiv",
           map: map,
           zoom: 17,
           center: [-96.68, 40.81] // longitude, latitude – change this as needed
         });
-      });
-var featureLayer = new FeatureLayer({
-url:"https://gisext.lincoln.ne.gov/arcgis/rest/services/Parks/Park_Boundaries/MapServer/"
-  });
+
 const legend = new Legend({
 view:view,
 layerInfos: [{
 layer: geojsonLayer,
-title: "Lab 6 Symbols"
+title: "Lab 6 Symbols",
 }]
 });
 
-map.add(featureLayer);
+map.add(FeatureLayer);
 view.ui.add(legend, "bottom-left");
-map.add(featureLayer);
+  });
     </script>
   </head>
 
