@@ -28,8 +28,9 @@ body {
           }
         </style>
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="https://hbloom3.github.io/lab5/dougco_streets.js"></script>
 <script src="https://hbloom3.github.io/lab5/dougco_tracts2020rr.js"></script>
+<script src="https://hbloom3.github.io/lab5/dougco_streets.js"></script>
+
 </head>
 
 <body>
@@ -59,7 +60,7 @@ var g = svg.append( "g" );
 // Width and Height of the whole visualization
 // Set Projection Parameters
 var albersProjection = d3.geoAlbers()
-.scale( 285000000 )
+.scale( 99999 )
 .rotate( [96.1951,0] )
 .center( [0, 41.3148] )
 .translate( [width/2,height/2] );
@@ -81,13 +82,13 @@ dgtrct_json.selectAll( "path" )
 .data( dgtrct.features )
 .enter().append( "path" )
 .attr( "fill", function(d) { return ramp(d.properties.NAMELSAD) } )
-.attr( "stroke", "#999" )
+.attr( "stroke", "green" )
 .attr( "d", geoPath )
 .attr("class","tractdata")
 
 .on("mouseover", function(d){
   //populate h2 with "built in" & the year built field from the json
-  d3.select("h2").text("Census Tract" + d.properties.NAMELSAD);
+  d3.select("h2").text(d.properties.NAMELSAD);
   d3.select(this).attr("class","tractdata hover");
 })
 //here, D3 to replace text interactively based on building data
