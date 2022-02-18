@@ -81,14 +81,14 @@ var dgtrct_json = svg.append( "g" );
 dgtrct_json.selectAll( "path" )
 .data( dgtrct.features )
 .enter().append( "path" )
-.attr( "fill", function(d) { return ramp(d.properties.NAMELSAD) } )
+.attr( "fill", function(d) { return ramp(d.properties.NAME ) } )
 .attr( "stroke", "green" )
 .attr( "d", geoPath )
 .attr("class","tractdata")
 
 .on("mouseover", function(d){
   //populate h2 with "built in" & the year built field from the json
-  d3.select("h2").text(d.properties.NAMELSAD);
+  d3.select("h2").text("Census Tract "+ d.properties.NAME);
   d3.select(this).attr("class","tractdata hover");
 })
 //here, D3 to replace text interactively based on building data
