@@ -27,13 +27,13 @@ body {
           fill: yellow;
           }
         </style>
-<script scr="https://d3js.org/ds.v5.min.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://rshepard2.github.io/Lab9/data/lnkrds.js"></script>
 <script src="https://rshepard2.github.io/Lab9/data/northeast_lnk_blds.js"></script>
 </head>
 
 <body>
-<h1>Aging Northeast Lincoln Homes</h1> <h2></h2>
+  <h1>Aging Northeast Lincoln Homes</h1> <h2></h2>
 <script>
 var width = 1000;
 var height = 600;
@@ -79,15 +79,15 @@ g.selectAll( "path" )
 var lnk_json = svg.append( "g" );
 lnk_json.selectAll( "path" )
 .data( lnkbldngsjson.features )
-.enter()
-.append( "path" )
+.enter().append( "path" )
 .attr( "fill", function(d) { return ramp(d.properties.RESYRBLT) } )
 .attr( "stroke", "#999" )
 .attr( "d", geoPath )
 .attr("class","buildingdata")
+
 .on("mouseover", function(d){
   //populate h2 with "built in" & the year built field from the json
-  d3.select("h2").text("Built in " + d.properties.RESYRBLT);
+  d3.select("h2").text("Built in" + d.properties.RESYRBLT);
   d3.select(this).attr("class","buildingdata hover");
 })
 //here, D3 to replace text interactively based on building data
