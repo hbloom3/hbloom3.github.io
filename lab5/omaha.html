@@ -82,7 +82,7 @@ var dgtrct_json = svg.append( "g" );
 dgtrct_json.selectAll( "path" )
 .data( dgtrct.features )
 .enter().append( "path" )
-.attr( "fill", function(d) { return ramp(d.properties.NAME ) } )
+.attr( "fill", "#e1c699" )
 .attr( "stroke", "green" )
 .attr( "d", geoPath )
 .attr("class","tractdata")
