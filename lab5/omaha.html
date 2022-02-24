@@ -70,7 +70,8 @@ var geoPath = d3.geoPath()
 .projection ( albersProjection );
 
 //select element; bind data; append attributes; apply
-g.selectAll( "path" )
+var omards_json = svg.append( "g" );
+omards_json.selectAll( "path" )
 .data( omards.features )
 .enter() .append( "path" )
 .attr( "fill", "#ccc" )
