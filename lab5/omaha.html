@@ -28,8 +28,8 @@ body {
           }
         </style>
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="https://hbloom3.github.io/lab5/dougroads.js"></script>
 <script src="https://hbloom3.github.io/lab5/dougco_tracts2020rr.js"></script>
+<script src="https://hbloom3.github.io/lab5/dougroads.js"></script>
 
 </head>
 
@@ -69,15 +69,6 @@ var albersProjection = d3.geoAlbers()
 var geoPath = d3.geoPath()
 .projection ( albersProjection );
 
-//select element; bind data; append attributes; apply
-var dougroads_json = svg.append( "g" );
-dougroads_json.selectAll( "path" )
-.data( dougroads.features )
-.enter() .append( "path" )
-.attr( "fill", "#ccc" )
-.attr( "stroke", "#333")
-.attr( "d", geoPath );
-
 var dgtrct_json = svg.append( "g" );
 dgtrct_json.selectAll( "path" )
 .data( dgtrct.features )
@@ -96,7 +87,14 @@ dgtrct_json.selectAll( "path" )
 .on("mouseout", function(d){
   d3.select("h2").text("");
   d3.select(this).attr("class","tractdata");
- });
+  //select element; bind data; append attributes; apply
+  var dougroads_json = svg.append( "g" );
+  dougroads_json.selectAll( "path" )
+  .data( dougroads.features )
+  .enter() .append( "path" )
+  .attr( "fill", "#ccc" )
+  .attr( "stroke", "#333")
+  .attr( "d", geoPath ); });
 </script>
 </body>
 </html>
