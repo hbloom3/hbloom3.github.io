@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+    <title>1950 and 1960 North Omaha census blocks</title>
+    <link rel="stylesheet"href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.22/"></script>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      #timeSlider {
+        position: absolute;
+        left: 5%;
+        right: 5%;
+        bottom: 20px;
+      }
+
+    </style>
+    <script>
+
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/widgets/TimeSlider",
+        "esri/widgets/Legend"
+      ], function (Map, MapView, FeatureLayer, TimeSlider, Legend) {
+
+
+                        const popupTemplate = {
+                                  // autocasts as new PopupTemplate()
+                                  title: "Changes in blocks from 1950 to 1960",
+                                  content: [
+                                    {
+                                      type: "fields",
+                                      fieldInfos: [
+                                        {
+                                          fieldName: "PART",
+                                          label: "1950/1960 Combined Tract and Block Name",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "AREA",
+                                          label: "Area in square meters",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "Date",
+                                          label: "Date",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "HU",
+                                          label: "Housing Units",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "HUDIFF1",
+                                          label: "Number of Housing Units lost in 1960 (gains will be negative numbers)",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "POCC",
+                                          label: "Percent Occupied Housing Units",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "PEROWN",
+                                          label: "Percent Owner-Occupied Housing Units",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "PERRENT",
+                                          label: "Percent Renter-Occupied Housing Units",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "PVACANT",
+                                          label: "Percent Vacant Housing Units",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "PERPLUMB",
+                                          label: "Percent Housing Units with all Plumbing Facilities",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "PERNOBATH",
+                                          label: "Percent Housing Units with No Bath (1950 only)",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "PLACK",
+                                          label: "Percent Housing Units Lacking Some or All Plumbing",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "PDILAP",
+                                          label: "Percent Dilapidated Housing Units",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "PWHITE",
+                                          label: "Percent White Population",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "PERNOWHITE",
+                                          label: "Percent Non-White Population",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                          }
+                          ]}]};
+
+const layer = new FeatureLayer({
+      url:   "https://services8.arcgis.com/jzdN07B7ZhRTxuzU/arcgis/rest/services/blocks/FeatureServer",
+      outFields: ["PART", "AREA", "DATE", "HU", "HUDIFF1", "POCC", "PEROWN", "PERRENT", "PVACANT", "PERPLUMB", "PERNOBATH", "PLACK", "PDILAP", "PWHITE", "PERNOWHITE"], // used to specify what attribute fields to query
+     popupTemplate: popupTemplate
+    });
+
+            const map = new Map({
+                    basemap: "gray-vector",
+                    layers: [layer] //if you add more layers, separate by a comma
+                  });
+
+                  const view = new MapView({
+                          map: map,
+                          container: "viewDiv",
+                          zoom: 13, //zoomed almost all the way out to see the globe
+                          center: [-95.936217, 41.273432] //set this somewhere in the middle of the Pacific
+                        });
+
+                        const timeSlider = new TimeSlider({
+                            container: "timeSlider",
+                            view: view,
+                            timeVisible: true, // show the time stamps on the timeslider
+                            loop: true
+                           });
+
+                        view.whenLayerView(layer).then(function (lv) {
+                                // this just rounds up the time extent to full hours
+                         timeSlider.fullTimeExtent = layer.timeInfo.fullTimeExtent.expandTo("hours");
+                              });
+
+
+                        const legend = new Legend({
+                                view: view
+                              });
+
+                        view.ui.add(legend, "top-left"); //you can position the legend here
+
+});
+                         </script>
+                          </head>
+
+                          <body>
+                            <div id="viewDiv"></div>
+                            <div id="timeSlider"></div>
+                          </body>
+
+                        </html>
