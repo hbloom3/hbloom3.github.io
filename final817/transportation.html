@@ -90,19 +90,26 @@ outFields: ["Decade", "Systems", "FULLNAME"], // used to specify what attribute 
                           });
 
                           const timeSlider = new TimeSlider({
-                              container: "timeSlider",
-                              view: view,
-                              timeVisible: true, // show the time stamps on the timeslider
-                              loop: true
-                             });
-
-                          view.whenLayerView(layer).then(function (lv) {
-                                  // this just rounds up the time extent to full hours
-                           timeSlider.fullTimeExtent = layer.timeInfo.fullTimeExtent.expandTo("decades");
-                                });
-
-
-                          const legend = new Legend({
+                          container: "timeSlider",
+                          view: view,
+                          timeVisible: true, // show the time stamps on the timeslider
+                          loop: true,
+                          fullTimeExtent: {
+                            start: new Date(1790, 0, 1),
+                            end: new Date(2020, 11, 30)
+                          },
+                          timeExtent: {
+                            start: new Date(1790, 0, 1),
+                            end: new Date(1800, 11, 30)
+                          },
+                          stops: {
+                            interval: {
+                              value: 10,
+                              unit: "years"
+                            }
+                          }
+                          });
+                                const legend = new Legend({
                                   view: view
                                 });
 
