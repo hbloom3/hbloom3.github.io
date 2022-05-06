@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+    <title>Population Rank and Land Use</title>
+    <link rel="stylesheet"href="https://js.arcgis.com/4.22/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.22/"></script>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+
+      #timeSlider {
+        position: absolute;
+        left: 5%;
+        right: 5%;
+        bottom: 20px;
+      }
+
+    </style>
+    <script>
+
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/FeatureLayer",
+        "esri/widgets/TimeSlider",
+        "esri/widgets/Legend"
+      ], function (Map, MapView, FeatureLayer, TimeSlider, Legend) {
+
+
+                        const popupTemplatestates = {
+                                  // autocasts as new PopupTemplate()
+                                  title: "On {Date}, {State} was admitted as the {ADMIT} state admitted to the United States",
+                                  content: [
+                                    {
+                                      type: "fields",
+                                      fieldInfos: [
+                                        {
+                                          fieldName: "Date",
+                                          label: "Date",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "State",
+                                          label: "State",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "ADMIT",
+                                          label: "Admitted",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                ]}]};
+
+                                        const popupTemplatetransportation = {
+                                  // autocasts as new PopupTemplate()
+                                  title: "In {Decade}, {Systems} were a major transportation provider on the {FULLNAME}",
+                                  content: [
+                                    {
+                                      type: "fields",
+                                      fieldInfos: [
+                                        {
+                                          fieldName: "Decade",
+                                          label: "Year",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                                        {
+                                          fieldName: "Systems",
+                                          label: "Type",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },                        {
+                                          fieldName: "FULLNAME",
+                                          label: "Type",
+                                          format: {
+                                            places: 0,
+                                            digitSeparator: true
+                                          }
+                                        },
+                ]}]};
+
+                const popupTemplate = {
+                          // autocasts as new PopupTemplate()
+                          title: "In {DECADE}, {CITY} had a population of {POP}, and was ranked {RANK}, with a population change of {POPCHANGE} percent",
+                          content: [
+                            {
+                              type: "fields",
+                              fieldInfos: [
+                                {
+                                  fieldName: "DECADE",
+                                  label: "Decade",
+                                  format: {
+                                    places: 0,
+                                    digitSeparator: true
+                                  }
+                                },
+                                {
+                                  fieldName: "CITY",
+                                  label: "City",
+                                  format: {
+                                    places: 0,
+                                    digitSeparator: true
+                                  }
+                                },
+                                {
+                                  fieldName: "POP",
+                                  label: "Population",
+                                  format: {
+                                    places: 0,
+                                    digitSeparator: true
+                                  }
+                                },
+                                {
+                                  fieldName: "RANK",
+                                  label: "Rank",
+                                  format: {
+                                    places: 0,
+                                    digitSeparator: true
+                                  }
+                                },
+                                {
+                                fieldName: "POPCHANGE",
+                                label: "Population Change",
+                                format: {
+                                  places: 0,
+                                  digitSeparator: true
+        }
+                                }]}]};
+
+const stateslayer = new FeatureLayer({
+url:   "https://services8.arcgis.com/jzdN07B7ZhRTxuzU/arcgis/rest/services/United_States/FeatureServer/0",
+outFields: ["Date", "State", "Admit", "YearBegin"], // used to specify what attribute fields to query
+          popupTemplate: popupTemplatestates
+          });
+
+const transportationlayer = new FeatureLayer({
+url:   "https://services8.arcgis.com/jzdN07B7ZhRTxuzU/arcgis/rest/services/Transportation_Systems/FeatureServer/0",
+outFields: ["Decade", "Systems", "FULLNAME"], // used to specify what attribute fields to query
+        popupTemplate: popupTemplatetransportation
+        });
+
+const layer = new FeatureLayer({
+url:   "https://services8.arcgis.com/jzdN07B7ZhRTxuzU/arcgis/rest/services/Popsize/FeatureServer",
+outFields: ["DECADE", "CITY", "POP", "RANK", "POPCHANGE", "YearBegin"], // used to specify what attribute fields to query
+        popupTemplate: popupTemplate
+        });
+
+                          const map = new Map({
+                      basemap: "gray-vector",
+                      layers: [stateslayer, transportationlayer, layer] //if you add more layers, separate by a comma
+                    });
+
+                    const view = new MapView({
+                            map: map,
+                            container: "viewDiv",
+                            zoom: 4, //zoomed almost all the way out to see the globe
+                            center: [-98.5795, 39.8283] //set this somewhere in the middle of the Pacific
+                          });
+
+const timeSlider = new TimeSlider({
+container: "timeSlider",
+view: view,
+timeVisible: true, // show the time stamps on the timeslider
+loop: true,
+fullTimeExtent: {
+  start: new Date(1790, 0, 1),
+  end: new Date(2020, 11, 30)
+},
+timeExtent: {
+  start: new Date(1790, 0, 1),
+  end: new Date(1800, 11, 30)
+},
+stops: {
+  interval: {
+    value: 10,
+    unit: "years"
+  }
+}
+});
+                          const legend = new Legend({
+                                  view: view
+                                });
+
+                          view.ui.add(legend, "top-left"); //you can position the legend here
+
+                          });
+                           </script>
+                            </head>
+
+                            <body>
+                              <div id="viewDiv"></div>
+                              <div id="timeSlider"></div>
+                            </body>
+
+                          </html>
